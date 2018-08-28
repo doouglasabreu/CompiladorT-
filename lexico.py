@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 import ply.lex as lex
 
 reservado = {
@@ -38,8 +38,11 @@ tokens = [
     'OU_LOGICO',
     'NEGACAO',
     'COMENTARIO',
+    'NUMERO_FLUTUANTE',
     'NUMERO_INTEIRO',
-    'ID'
+    'NOTACAO_CIENTIFICA',
+    'ID',
+    
 ] + list(reservado.values())
 
 t_SOMA = r'\+'
@@ -66,34 +69,42 @@ t_COMENTARIO = r'\{[^}]*[^{]*\}'
 t_ignore = r' '
 
 def t_ID(t):
-    r'[a-z][a-z]*'
+    r'[a-zA-Z_][a-zà-úA-ZÀ-Ú0-9_]*'
     t.type = reservado.get(t.value, 'ID')
     return t
-
-
 
 def t_NOVA_LINHA(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
+    print("Caracter ilegal '%s'" % t.value[0])
     t.lexer.skip(1)
 
+
+
+def t_NUMERO_FLUTUANTE(t):
+    r'\+?\-?[0-9]+\.[0-9]+'
+    t.value = float(t.value)    
+    return t
+
 def t_NUMERO_INTEIRO(t):
-    r'\d+'
+    r'\+?\-?[0-9]+'
     t.value = int(t.value)    
     return t
 
+
+
 teste = lex.lex()
 
-file = open('teste-1.tpp','r')
+file = open('teste-1.tpp','r', encoding = 'utf8')
 
 codigo = file.read()
 file.close()
 
-
 teste.input(codigo)
+
+
 
 while True :
     token = teste.token()
