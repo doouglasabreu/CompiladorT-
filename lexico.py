@@ -42,6 +42,7 @@ tokens = [
     'NUMERO_INTEIRO',
     'NOTACAO_CIENTIFICA',
     'ID',
+    'NUM_NOTACAO_CIENTIFICA',
     
 ] + list(reservado.values())
 
@@ -49,9 +50,9 @@ t_SOMA = r'\+'
 t_SUBTRACAO = r'\-'
 t_DIVISAO = r'/'
 t_MULTIPLICACAO = r'\*'
-t_IGUALDADE = r'=='
+t_IGUALDADE = r'\='
 t_VIRGULA = r','    
-t_ATRIBUICAO = r'='
+t_ATRIBUICAO = r':='
 t_MENOR = r'<'
 t_MAIOR = r'>'
 t_MENOR_IGUAL = r'<='
@@ -66,7 +67,13 @@ t_OU_LOGICO = r'\|\|'
 t_NEGACAO = r'!'
 t_COMENTARIO = r'\{[^}]*[^{]*\}'
 
-t_ignore = r' '
+t_ignore = ' \t'
+
+
+# def t_COMENTARIO(t):
+#     r'\{[^}]*[^{]*\}'
+#     pass
+
 
 def t_ID(t):
     r'[a-zA-Z_][a-zà-úA-ZÀ-Ú0-9_]*'
@@ -82,9 +89,13 @@ def t_error(t):
     t.lexer.skip(1)
 
 
+def t_NUM_NOTACAO_CIENTIFICA(t):
+    r'\+?\-?[0-9]+[\.[0-9]*]?e\+?\-?[0-9]+'   
+    return t
+    
 
 def t_NUMERO_FLUTUANTE(t):
-    r'\+?\-?[0-9]+\.[0-9]+'
+    r'\+?\-?[0-9]+\.[0-9]*'
     t.value = float(t.value)    
     return t
 
@@ -94,10 +105,18 @@ def t_NUMERO_INTEIRO(t):
     return t
 
 
-
 teste = lex.lex()
 
-file = open('teste-1.tpp','r', encoding = 'utf8')
+# filename = 'teste-1.tpp'
+#filename = 'teste-2.tpp'
+#filename = 'Busca_Linear_1061992.tpp'
+#filename = 'fat.tpp'
+#filename = 'multiplicavetor.tpp'
+#filename = 'primo.tpp'
+filename = 'bubble_sort.tpp'
+
+
+file = open(filename,'r', encoding = 'utf8')
 
 codigo = file.read()
 file.close()
@@ -105,13 +124,13 @@ file.close()
 teste.input(codigo)
 
 
-
+cont = 0
 while True :
     token = teste.token()
     if not token:
         break
-    print(token.type, token.value)
-
+    print(cont,'(', token.type,',' ,token.value , ')')
+    cont+=1
 
 
 
