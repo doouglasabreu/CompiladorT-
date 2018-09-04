@@ -1,5 +1,10 @@
 inteiro: n
+
 flutuante: a[10]
+{
+
+{
+}
 
 inteiro fatorial(inteiro: n)
     inteiro: fat

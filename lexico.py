@@ -65,14 +65,15 @@ t_FECHA_COL = r'\]'
 t_E_LOGICO = r'&&'
 t_OU_LOGICO = r'\|\|'
 t_NEGACAO = r'!'
-t_COMENTARIO = r'\{[^}]*[^{]*\}'
+#t_COMENTARIO = r'\{[^}]*[^{]*\}'
 
 t_ignore = ' \t'
 
 
-# def t_COMENTARIO(t):
-#     r'\{[^}]*[^{]*\}'
-#     pass
+def t_COMENTARIO(t):
+    r'\{[^}]*[^{]*\}'
+    pass
+
 
 
 def t_ID(t):
@@ -90,30 +91,30 @@ def t_error(t):
 
 
 def t_NUM_NOTACAO_CIENTIFICA(t):
-    r'\+?\-?[0-9]+[\.[0-9]*]?e\+?\-?[0-9]+'   
+    r'[0-9]+[\.[0-9]*]?e\+?\-?[0-9]+'   
     return t
     
 
 def t_NUMERO_FLUTUANTE(t):
-    r'\+?\-?[0-9]+\.[0-9]*'
+    r'[0-9]+\.[0-9]*'
     t.value = float(t.value)    
     return t
 
 def t_NUMERO_INTEIRO(t):
-    r'\+?\-?[0-9]+'
+    r'[0-9]+'
     t.value = int(t.value)    
     return t
 
 
 teste = lex.lex()
 
-# filename = 'teste-1.tpp'
-#filename = 'teste-2.tpp'
-#filename = 'Busca_Linear_1061992.tpp'
-#filename = 'fat.tpp'
-#filename = 'multiplicavetor.tpp'
-#filename = 'primo.tpp'
-filename = 'bubble_sort.tpp'
+#filename = './lexica-testes/teste-1.tpp'
+#filename = './lexica-testes/teste-2.tpp'
+#filename = './lexica-testes/Busca_Linear_1061992.tpp'
+filename = './lexica-testes/fat.tpp'
+#filename = './lexica-testes/multiplicavetor.tpp'
+#filename = './lexica-testes/primo.tpp'
+#filename = './lexica-testes/bubble_sort.tpp'
 
 
 file = open(filename,'r', encoding = 'utf8')
@@ -124,7 +125,7 @@ file.close()
 teste.input(codigo)
 
 
-cont = 0
+cont = 1
 while True :
     token = teste.token()
     if not token:
